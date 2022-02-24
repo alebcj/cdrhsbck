@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-class Contenedor {
+class Container {
   constructor(filename) {
     //Armo Constructor
     this.filename = filename; //Asigno nombre de archivo
@@ -99,4 +99,4 @@ class Contenedor {
     );
   }
 }
-module.exports = Contenedor
+module.exports = Container

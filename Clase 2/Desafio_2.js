@@ -36,7 +36,7 @@ Sugerencia: usar un archivo para la clase y otro de test, que la importe
 
 // Testing
 
-const Contenedor = require("./Contenedor");
+const Container = require("./Container");
 
 (async function(){
   //...
@@ -74,7 +74,7 @@ const Contenedor = require("./Contenedor");
   };
 
   //Instanciamos Contenedor
-  const container = new Contenedor("productos.txt");
+  const container = new Container("productos.txt");
 
   //Guardamos algunos objetos
   console.log("\n", "***TEST LOG***: Guardamos objetos");

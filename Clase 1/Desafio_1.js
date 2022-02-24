@@ -40,32 +40,32 @@ usuario.getFullName() deberia devolver 'Elon Musk'
 
 */
 
-class Usuario {
-    constructor(nombre, apellido) {   //Constructor de la clase
-        this.nombre = nombre
-        this.apellido = apellido
-        this.libros = []
-        this.mascotas = []
+class User {
+    constructor(name, lastname) {   //Constructor de la clase
+        this.name = name
+        this.lastname = lastname
+        this.books = []
+        this.pets = []
     }
 
     getFullName() {
-        return `${this.nombre} ${this.apellido}`    //Utilizo Template Strings
+        return `${this.name} ${this.lastname}`    //Utilizo Template Strings
     }
 
-    addMascota(mascota) {
-        this.mascotas.push(mascota);                //Push al array de mascotas
+    addPet(pet) {
+        this.pets.push(pet);                //Push al array de mascotas
     }
 
-    countMascotas(){
-        return this.mascotas.length;                //Devuelvo propiedad length del array de mascotas.
+    countPets(){
+        return this.pets.length;                //Devuelvo propiedad length del array de mascotas.
     }
 
     addBook(nombre, autor) {
-        this.libros.push({nombre: nombre, autor: autor});       //Creo obj en tiempo real y hago un push en el array de libros.
+        this.books.push({nombre: nombre, autor: autor});       //Creo obj en tiempo real y hago un push en el array de libros.
     }
 
     getBookNames() {
-        return this.libros.map(book => book.nombre);            //Mapeo el array de libros, solamente con la propiedad de nombre y lo devuelvo.
+        return this.books.map(book => book.nombre);            //Mapeo el array de libros, solamente con la propiedad de nombre y lo devuelvo.
     }
 
 }
@@ -73,19 +73,19 @@ class Usuario {
 console.log('\n' , '-----------------------------', '\n', 'Ejercicio Entregable - Clase 1', '\n', '-----------------------------', '\n')
 
 //Instanciamos un usuario.
-const user = new Usuario("Pepe","Rodriguez",[],[]); 
+const user = new User("Pepe","Rodriguez",[],[]); 
 
 //Obtenemos su nombre por consola con el método creado.
 console.log(user.getFullName());
 
 //Agregamos algunas mascotas al obj user.
-user.addMascota("Dogo Argentino");
-user.addMascota("Hámster");
-user.addMascota("Bulldog Francés");
-user.addMascota("Gato Siamés");
+user.addPet("Dogo Argentino");
+user.addPet("Hámster");
+user.addPet("Bulldog Francés");
+user.addPet("Gato Siamés");
 
 //Contabilizamos las mascotas.
-console.log(user.countMascotas());
+console.log(user.countPets());
 
 //Agregamos Libros al obj user.
 user.addBook("La divina comedia", "Dante Alighieri");
