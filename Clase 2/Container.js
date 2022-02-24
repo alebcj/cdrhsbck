@@ -48,10 +48,18 @@ class Container {
     }
   }
 
+
   //getAll(): Object[] - Devuelve un array con los objetos presentes en el archivo.
   async getAll() {
-    return JSON.parse(await this.readFile());
-  }
+    try {     
+        let buffer = await fs.promises.readFile(this.filename, 'utf-8')
+        return JSON.parse(buffer);
+    }
+      catch (err) { 
+        console.log('No existen Productos.');
+        return null;     
+   }      
+}
 
   //deleteAll(): void - Elimina todos los objetos presentes en el archivo.
   async deleteAll() {

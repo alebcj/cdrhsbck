@@ -76,6 +76,11 @@ const Container = require("./Container");
   //Instanciamos Contenedor
   const container = new Container("productos.txt");
 
+    //Obtenemos todos los objetos
+    console.log("\n", "***TEST LOG***: Obtenemos todos los objetos");
+    var x = await container.getAll();
+    console.log(x);
+
   //Guardamos algunos objetos
   console.log("\n", "***TEST LOG***: Guardamos objetos");
   console.log(await container.save(objEarth))
