@@ -41,11 +41,11 @@ usuario.getFullName() deberia devolver 'Elon Musk'
 */
 
 class Usuario {
-    constructor(nombre, apellido, libros, mascotas) {   //Constructor de la clase
+    constructor(nombre, apellido) {   //Constructor de la clase
         this.nombre = nombre
         this.apellido = apellido
-        this.libros = libros
-        this.mascotas = mascotas
+        this.libros = []
+        this.mascotas = []
     }
 
     getFullName() {
