@@ -1,0 +1,102 @@
+const fs = require("fs");
+
+class Contenedor {
+  constructor(filename) {
+    //Armo Constructor
+    this.filename = filename; //Asigno nombre de archivo
+    this.data = [];
+  }
+
+  //save(Object): Number - Recibe un objeto, lo guarda en el archivo, devuelve el id asignado.
+  async save(obj) {
+    try {
+      if (!fs.existsSync(this.filename)) {
+        //Si el archivo no existe, o bien no tiene info, lo creo.
+        return this.createFile(obj);
+      } else {
+        this.data = await this.getAll();
+        return this.createFile(obj);
+      }
+    } catch (err) {
+      console.log(
+        `Error al agregar ${obj.title} en Archivo: ${this.filename}: ${err}`
+      );
+    }
+  }
+
+  //readFile(): String - Devuelve un el archivo leido
+  async readFile() {
+    try {
+      return await fs.promises.readFile(this.filename, "utf-8");
+    } catch (err) {
+      console.log(`Error al leer el archivo: "${this.filename}" : ${err}`);
+    }
+  }
+
+  //createFile(): Number - Devuelve el id del objeto agregado
+  async createFile(obj) {
+    try {
+      obj.id = this.getMaxId() + 1;
+      this.data.push(obj);
+      await fs.promises.writeFile(this.filename, JSON.stringify(this.data));
+      console.log(
+        `Se agrega objeto: "${obj.title}" en Archivo "${this.filename}"  Resultado ID: "${obj.id}"`
+      );
+      return obj.id;
+    } catch (err) {
+      console.log(`Error al crear Archivo: "${this.filename}" ERROR: ${err}`);
+    }
+  }
+
+  //getAll(): Object[] - Devuelve un array con los objetos presentes en el archivo.
+  async getAll() {
+    return JSON.parse(await this.readFile());
+  }
+
+  //deleteAll(): void - Elimina todos los objetos presentes en el archivo.
+  async deleteAll() {
+    fs.unlink(this.filename, (err) => {
+      if (err) {
+        console.log(
+          `Error al eliminar Archivo: "${this.filename}" ERROR: ${err}`
+        );
+      } else {
+        console.log(`Se eliminó Archivo: "${this.filename}" `);
+      }
+    });
+  }
+
+  getMaxId() {
+    var maxValue = Number.MIN_VALUE;
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i].id > maxValue) {
+        maxValue = this.data[i].id;
+      }
+    }
+    return maxValue;
+  }
+
+  //getById(Number): Object - Recibe un id y devuelve el objeto con ese id, o null si no está.
+  async getById(id) {
+    try {
+      let aux = await this.getAll();
+      return aux.find((obj) => obj.id == id) || null;
+    } catch (err) {
+      console.log(
+        `Error al obtener elemento con índice "${id}" en Archivo: "${this.filename}" ERROR: ${err}`
+      );
+    }
+  }
+
+  //deleteById(Number): void - Elimina del archivo el objeto con el id buscado.
+  async deleteById(id) {
+    let aux = await this.getAll();
+    let x = aux.findIndex((obj) => obj.id == id);
+    aux.splice(x, 1);
+    await fs.promises.writeFile(this.filename, JSON.stringify(aux));
+    console.log(
+      `Se eliminó Objeto de ID: "${id}" de Archivo: "${this.filename}"`
+    );
+  }
+}
+module.exports = Contenedor
