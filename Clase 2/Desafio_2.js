@@ -38,7 +38,9 @@ Sugerencia: usar un archivo para la clase y otro de test, que la importe
 
 const Contenedor = require("./Contenedor");
 
-async function test() {
+(async function(){
+  //...
+
   console.log(
     "\n",
     "-----------------------------",
@@ -120,6 +122,6 @@ async function test() {
     "\n",
     "-----------------------------"
   );
-}
 
-test();
+
+})(); 
