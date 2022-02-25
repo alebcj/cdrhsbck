@@ -74,7 +74,7 @@ const Container = require("./Container");
   };
 
   //Instanciamos Contenedor
-  const container = new Container("productos.txt");
+  const container = new Container("products.json");
 
     //Obtenemos todos los objetos
     console.log("\n", "***TEST LOG***: Obtenemos todos los objetos");
@@ -82,15 +82,15 @@ const Container = require("./Container");
     console.log(x);
 
   //Guardamos algunos objetos
-  console.log("\n", "***TEST LOG***: Guardamos objetos");
-  console.log(await container.save(objEarth))
-  console.log(await container.save(objRule))
-  console.log(await container.save(objCalculator))
-  console.log(await container.save(objEarth))
-  console.log(await container.save(objRule))
-  console.log(await container.save(objEarth))
-  console.log(await container.save(objCalculator))
-  console.log(await container.save(objRule))
+  console.log("\n", "***TEST LOG***: Guardamos objetos", "\n");
+  console.log("***TEST LOG***: RetornoId:" , await container.save(objEarth))
+  console.log("***TEST LOG***: RetornoId:" , await container.save(objRule))
+  console.log("***TEST LOG***: RetornoId:" , await container.save(objCalculator))
+  console.log("***TEST LOG***: RetornoId:" , await container.save(objEarth))
+  console.log("***TEST LOG***: RetornoId:" , await container.save(objRule))
+  console.log("***TEST LOG***: RetornoId:" , await container.save(objEarth))
+  console.log("***TEST LOG***: RetornoId:" , await container.save(objCalculator))
+  console.log("***TEST LOG***: RetornoId:" , await container.save(objRule))
 
   //Obtenemos todos los objetos
   console.log("\n", "***TEST LOG***: Obtenemos todos los objetos");
