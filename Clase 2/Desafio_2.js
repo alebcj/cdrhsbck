@@ -73,13 +73,13 @@ const Container = require("./Container");
       "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
   };
 
-  //Instanciamos Contenedor
-  const container = new Container("products.json");
+   //Instanciamos Contenedor
+  const container = new Container("products_test.json");
 
-    //Obtenemos todos los objetos
-    console.log("\n", "***TEST LOG***: Obtenemos todos los objetos");
-    var x = await container.getAll();
-    console.log(x);
+  //Obtenemos todos los objetos
+  console.log("\n", "***TEST LOG***: Obtenemos todos los objetos");
+  var x = await container.getAll();
+  console.log(x);
 
   //Guardamos algunos objetos
   console.log("\n", "***TEST LOG***: Guardamos objetos", "\n");
@@ -94,7 +94,7 @@ const Container = require("./Container");
 
   //Obtenemos todos los objetos
   console.log("\n", "***TEST LOG***: Obtenemos todos los objetos");
-  var x = await container.getAll();
+  x = await container.getAll();
   console.log(x);
 
   //Buscamos por algún ID en específico y mostramos.

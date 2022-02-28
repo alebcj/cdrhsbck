@@ -1,0 +1,33 @@
+{
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "eslint": "^8.10.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "dependencies": {
+    "express": "^4.17.3",
+    "moment": "^2.29.1"
+  },
+  "name": "proyecto-coder",
+  "description": "___ ###### ![](https://images.ctfassets.net/qf2nkuq36ht9/5EMxiqpZ4RqdmwHBpTkcYN/287bad1efb590530d9cde1a1e769254e/logo_coderhouse.png) ## _Coderhouse Backend Curso_ #### _Alejandro Zammi_ ##### _Comision:_ _28855_ ### ### ###",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node 'Clase 2/Desafio_2.js'",
+    "compile": "tsc 'Clase 2/Container.ts'",
+    "lint": "eslint 'Clase 2/Container.ts' & eslint 'Clase 2/Desafio_2.js'",
+    "dev": "nodemon 'Clase 3/Server.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alebcj/cdrhsbck.git"
+  },
+  "author": "Alejandro Zammi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alebcj/cdrhsbck/issues"
+  },
+  "homepage": "https://github.com/alebcj/cdrhsbck#readme"
+}
