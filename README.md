@@ -16,3 +16,4 @@ Desafíos entregables del curso
 | Clase 1 | Repaso JS | 
 | Clase 2 | Async / FS |
 | Clase 3 | Express |
+| Clase 3 | Express Avanzado |
