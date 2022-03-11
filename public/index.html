@@ -12,6 +12,8 @@
   </head>
   <body>
     <form id="form" action="/api/productos" method="POST" class="m-5" enctype="application/x-www-form-urlencoded">
+      <h2>Alta de Productos</h2>
+      <br>
         <div class="mb-3">
             <label for="title" class="form-label">Nombre producto: </label>
             <input id="title" type="text" class="form-control" name="title"/>
@@ -26,14 +28,6 @@
         </div>
         <button class="btn btn-success mb-3" type="submit">Enviar</button>
     </form>
-
-    <div class="container">
-      <form action="/api/subir" enctype="multipart/form-data" method="POST">
-        <input type="file" name="myFile" />
-        <input type="submit" value="Upload a file" />
-      </form>
-      <br>
-  </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
