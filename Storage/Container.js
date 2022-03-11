@@ -44,7 +44,7 @@ var Contenedor = /** @class */ (function () {
         this.maxId = 0;
         this.filename = "./src/".concat(nombreArchivo);
     }
-    Contenedor.prototype.save = function (producto) {
+    Contenedor.prototype.save = function (product) {
         return __awaiter(this, void 0, void 0, function () {
             var err_1;
             return __generator(this, function (_a) {
@@ -53,8 +53,8 @@ var Contenedor = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         this.maxId++;
-                        producto.id = this.maxId;
-                        this.products.push(producto);
+                        product.id = this.maxId;
+                        this.products.push(product);
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 4, , 5]);
@@ -64,16 +64,48 @@ var Contenedor = /** @class */ (function () {
                         return [2 /*return*/, this.maxId];
                     case 4:
                         err_1 = _a.sent();
-                        console.log("Error al agregar ".concat(producto, " en Archivo: ").concat(this.filename, ": ").concat(err_1));
+                        console.log("Error al agregar ".concat(product, " en Archivo: ").concat(this.filename, ": ").concat(err_1));
                         throw new Error(err_1);
                     case 5: return [2 /*return*/];
                 }
             });
         });
     };
+    Contenedor.prototype.update = function (product) {
+        return __awaiter(this, void 0, void 0, function () {
+            var productOld, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 6, , 7]);
+                        return [4 /*yield*/, this.getAll()];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.getById(product.id)];
+                    case 2:
+                        productOld = _a.sent();
+                        if (!(productOld != null)) return [3 /*break*/, 4];
+                        productOld.title = product.title;
+                        productOld.price = product.price;
+                        productOld.thumbnail = product.thumbnail;
+                        return [4 /*yield*/, fs.writeFile(this.filename, JSON.stringify(this.products))];
+                    case 3:
+                        _a.sent();
+                        return [2 /*return*/, true];
+                    case 4: return [2 /*return*/, false];
+                    case 5: return [3 /*break*/, 7];
+                    case 6:
+                        err_2 = _a.sent();
+                        console.log("Error al actualizar ".concat(product, " en Archivo: ").concat(this.filename, ": ").concat(err_2));
+                        throw new Error(err_2);
+                    case 7: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Contenedor.prototype.getById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var aux, err_2;
+            var aux, err_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -83,8 +115,30 @@ var Contenedor = /** @class */ (function () {
                         aux = _a.sent();
                         return [2 /*return*/, aux.find(function (obj) { return obj.id == id; }) || null];
                     case 2:
-                        err_2 = _a.sent();
-                        console.log("Error al obtener elemento con \u00EDndice \"".concat(id, "\" en Archivo: \"").concat(this.filename, "\" ERROR: ").concat(err_2));
+                        err_3 = _a.sent();
+                        console.log("Error al obtener elemento con \u00EDndice \"".concat(id, "\" no existe en Archivo: \"").concat(this.filename, "\" ERROR: ").concat(err_3));
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Contenedor.prototype.getRandom = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var aux, id_1, err_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.getAll()];
+                    case 1:
+                        aux = _a.sent();
+                        id_1 = Math.floor(Math.random() * (this.maxId - 1)) + 1;
+                        console.log(id_1);
+                        return [2 /*return*/, aux.find(function (obj) { return obj.id == id_1; }) || null];
+                    case 2:
+                        err_4 = _a.sent();
+                        console.log("Error al obtener elemento Random en Archivo: \"".concat(this.filename, "\" ERROR: ").concat(err_4));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -93,7 +147,7 @@ var Contenedor = /** @class */ (function () {
     };
     Contenedor.prototype.getAll = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var productos, _a, _b, err_3;
+            var productos, _a, _b, err_5;
             var _this = this;
             return __generator(this, function (_c) {
                 switch (_c.label) {
@@ -119,9 +173,9 @@ var Contenedor = /** @class */ (function () {
                         _c.label = 4;
                     case 4: return [2 /*return*/, this.products];
                     case 5:
-                        err_3 = _c.sent();
-                        console.log("Error al obtener productos de Archivo: \"".concat(this.filename, "\" ERROR: ").concat(err_3));
-                        throw new Error(err_3);
+                        err_5 = _c.sent();
+                        console.log("Error al obtener productos de Archivo: \"".concat(this.filename, "\" ERROR: ").concat(err_5));
+                        throw new Error(err_5);
                     case 6: return [2 /*return*/];
                 }
             });
@@ -129,33 +183,36 @@ var Contenedor = /** @class */ (function () {
     };
     Contenedor.prototype.deleteById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var aux, x, err_4;
+            var aux, x, err_6;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
+                        _a.trys.push([0, 5, , 6]);
                         return [4 /*yield*/, this.getAll()];
                     case 1:
                         aux = _a.sent();
                         x = aux.findIndex(function (obj) { return obj.id == id; });
+                        if (!(x != -1)) return [3 /*break*/, 3];
                         aux.splice(x, 1);
                         return [4 /*yield*/, fs.writeFile(this.filename, JSON.stringify(aux))];
                     case 2:
                         _a.sent();
                         console.log("Se elimin\u00F3 Objeto de ID: \"".concat(id, "\" de Archivo: \"").concat(this.filename, "\""));
-                        return [3 /*break*/, 4];
-                    case 3:
-                        err_4 = _a.sent();
-                        console.log("Error al eliminar producto de ID: \"".concat(id, "\" en Archivo: \"").concat(this.filename, "\" Error: ").concat(err_4));
-                        throw new Error(err_4);
-                    case 4: return [2 /*return*/];
+                        return [2 /*return*/, true];
+                    case 3: return [2 /*return*/, false];
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
+                        err_6 = _a.sent();
+                        console.log("Error al eliminar producto de ID: \"".concat(id, "\" en Archivo: \"").concat(this.filename, "\" Error: ").concat(err_6));
+                        throw new Error(err_6);
+                    case 6: return [2 /*return*/];
                 }
             });
         });
     };
     Contenedor.prototype.deleteAll = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var err_5;
+            var err_7;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -169,9 +226,9 @@ var Contenedor = /** @class */ (function () {
                         console.log("Se elimin\u00F3 el Archivo: \"".concat(this.filename, "\""));
                         return [3 /*break*/, 4];
                     case 3:
-                        err_5 = _a.sent();
-                        console.log("Error al eliminar el Archivo: \"".concat(this.filename, "\" Error: ").concat(err_5));
-                        throw new Error(err_5);
+                        err_7 = _a.sent();
+                        console.log("Error al eliminar el Archivo: \"".concat(this.filename, "\" Error: ").concat(err_7));
+                        throw new Error(err_7);
                     case 4: return [2 /*return*/];
                 }
             });

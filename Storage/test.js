@@ -114,9 +114,15 @@ const Container = require("./Container");
   x = await container.getById(7);
   console.log(`Producto recuperado: "${JSON.stringify(x)}"`);
 
+  //Obtenemos un producto random
+  console.log("\n", "***TEST LOG***: Obtenemos un producto random");
+  x = await container.getRandom();
+  console.log(x);
+
   //Eliminamos archivo
   console.log("\n", "***TEST LOG***: Eliminamos el archivo");
   await container.deleteAll();
+  
 
   //Firma
   console.log(

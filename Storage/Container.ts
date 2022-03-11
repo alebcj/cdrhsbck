@@ -14,9 +14,11 @@ interface ContenedorType {
   maxId: number;
   filename: string;
   save(product: ProductType): Promise<number>;
+  update(product: ProductType): Promise<boolean>;
   getById(id: number): Promise<ProductType>;
+  getRandom(): Promise<ProductType>;
   getAll(): Promise<ProductType[]>;
-  deleteById(id: number): Promise<void>;
+  deleteById(id: number): Promise<boolean>;
   deleteAll(): Promise<void>;
 }
 
@@ -31,28 +33,63 @@ class Contenedor implements ContenedorType {
     this.filename = `./src/${nombreArchivo}`;
   }
 
-  async save(producto: ProductType): Promise<number> {
+  async save(product: ProductType): Promise<number> {
     await this.getAll();
     this.maxId++;
-    producto.id = this.maxId;
-    this.products.push(producto);
+    product.id = this.maxId;
+    this.products.push(product);
     try {
       await fs.writeFile(this.filename, JSON.stringify(this.products));
       return this.maxId;
     } catch (err: any) {
       console.log(
-        `Error al agregar ${producto} en Archivo: ${this.filename}: ${err}`
+        `Error al agregar ${product} en Archivo: ${this.filename}: ${err}`
       );
       throw new Error(err);
     }
   }
+
+  async update(product: ProductType): Promise<boolean> {
+    try {
+      await this.getAll();
+      const productOld = await this.getById(product.id)
+      if(productOld != null) {
+        productOld.title = product.title;
+        productOld.price = product.price;
+        productOld.thumbnail = product.thumbnail;
+        await fs.writeFile(this.filename, JSON.stringify(this.products));
+        return true
+      }
+      else{
+        return false;
+      }
+    } catch (err: any) {
+      console.log(
+        `Error al actualizar ${product} en Archivo: ${this.filename}: ${err}`
+      );
+      throw new Error(err);
+    }
+  }
+
   async getById(id: number): Promise<ProductType> {
     try {
       const aux = await this.getAll();
       return aux.find((obj) => obj.id == id) || null;
     } catch (err) {
       console.log(
-        `Error al obtener elemento con índice "${id}" en Archivo: "${this.filename}" ERROR: ${err}`
+        `Error al obtener elemento con índice "${id}" no existe en Archivo: "${this.filename}" ERROR: ${err}`
+      );
+    }
+  }
+  async getRandom(): Promise<ProductType> {
+    try {
+      const aux = await this.getAll();
+      const id = Math.floor(Math.random() * (this.maxId - 1)) + 1;
+      console.log(id);
+      return aux.find((obj) => obj.id == id) || null;
+    } catch (err) {
+      console.log(
+        `Error al obtener elemento Random en Archivo: "${this.filename}" ERROR: ${err}`
       );
     }
   }
@@ -81,15 +118,22 @@ class Contenedor implements ContenedorType {
       throw new Error(err);
     }
   }
-  async deleteById(id: number): Promise<void> {
+  async deleteById(id: number): Promise<boolean> {
     try {
       const aux = await this.getAll();
       const x = aux.findIndex((obj) => obj.id == id);
-      aux.splice(x, 1);
-      await fs.writeFile(this.filename, JSON.stringify(aux));
-      console.log(
-        `Se eliminó Objeto de ID: "${id}" de Archivo: "${this.filename}"`
-      );
+      if(x != -1){
+        aux.splice(x, 1);
+        await fs.writeFile(this.filename, JSON.stringify(aux));
+        console.log(
+          `Se eliminó Objeto de ID: "${id}" de Archivo: "${this.filename}"`
+        );
+        return true;
+      }
+      else{
+        return false;
+      }
+
     } catch (err: any) {
       console.log(
         `Error al eliminar producto de ID: "${id}" en Archivo: "${this.filename}" Error: ${err}`

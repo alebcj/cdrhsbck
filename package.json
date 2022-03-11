@@ -15,11 +15,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node 'Clase 2/Desafio_2.js'",
-    "compile": "tsc 'Clase 2/Container.ts'",
-    "lint": "eslint 'Clase 2/Container.ts' & eslint 'Clase 2/Desafio_2.js'",
-    "dev": "nodemon 'Clase 3/Server.js'",
-    "start": "node 'Clase 3/Server.js'"
+    "test": "node 'Storage/test.js'",
+    "compile": "tsc 'Storage/Container.ts'",
+    "lint": "eslint 'Storage/Container.ts' & eslint 'Storage/Desafio_2.js'",
+    "dev": "nodemon 'Server.js'",
+    "start": "node 'Server.js'"
   },
   "repository": {
     "type": "git",
