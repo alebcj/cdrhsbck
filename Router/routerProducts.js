@@ -40,6 +40,7 @@ routerProducts.get("/", async (req, res) => {
   
   routerProducts.put('/:id', async (req,res) =>{
     const product = req.body;
+    product.id = req.params.id;
     const update = await container.update(product);
     if(update == true){
       res.send("Producto actualizado correctamente")
