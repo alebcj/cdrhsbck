@@ -1,15 +1,12 @@
-
-
-
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 //Librerias
 const express = require("express");
-const Container = require("../Clase 2/Container");
+const Container = require("../Storage/Container");
 const { Router } = express;
 
 //Instancias
-const container = new Container("products.json");
+const container = new Container("../src/products.json");
 const routerProducts = Router();
 
 //Utils
@@ -62,4 +59,4 @@ routerProducts.get("/", async (req, res) => {
     }
   })
 
-  module.exports = routerProducts
+  exports.routerProducts = routerProducts
