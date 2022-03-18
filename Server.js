@@ -3,7 +3,6 @@
 
 //Librerias
 const express = require("express");
-const { engine } = require("express-handlebars");
 const Container = require("./Storage/Container");
 
 //Instancias
@@ -23,9 +22,9 @@ const server = app.listen(PORT, () => {
   console.log(` 🖥️  Server iniciado, escuchando... http://localhost:${PORT}`);
 });
 
-//Motor Templates PUG
-app.set("view engine", "pug")
-//Path Templates PUG
+//Motor Templates EJS
+app.set("view engine", "ejs")
+//Path Templates EJS
 app.set("views", "./views");
 
 
@@ -33,6 +32,7 @@ app.get('/productos', async (req, res) =>{
   const products = await container.getAll();
   res.render('productos', {products})
 })
+
 
 app.post('/productos', async (req, res) =>{
   const product = req.body;
