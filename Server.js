@@ -15,6 +15,7 @@ const container = new Container("products.json");
 const PORT = 8080;
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'));
 
 //Start
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,25 +23,15 @@ const server = app.listen(PORT, () => {
   console.log(` 🖥️  Server iniciado, escuchando... http://localhost:${PORT}`);
 });
 
-app.engine(
-  "hbs",
-  engine({
-    extname: ".hbs",
-    defaultLayout: "layout.hbs",
-    layoutsDir: __dirname + "/views/layout",
-    partialsDir: __dirname + "/views/partials",
-  }),
-);
-
-//Motor Templates HBS
-app.set("view engine", "hbs")
-//Path Templates HBS
-app.set("views", "./views/layout");
+//Motor Templates PUG
+app.set("view engine", "pug")
+//Path Templates PUG
+app.set("views", "./views");
 
 
 app.get('/productos', async (req, res) =>{
   const products = await container.getAll();
-  res.render('layout', {products})
+  res.render('productos', {products})
 })
 
 app.post('/productos', async (req, res) =>{
