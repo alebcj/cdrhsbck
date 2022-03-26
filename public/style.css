@@ -1,0 +1,19 @@
+td.mail {
+   color: blue;
+   font-weight: bold;
+}
+
+td.date {
+   color: brown;
+   font-weight: normal;
+}
+
+td.msg {
+   color:green;
+   font-style: italic;
+}
+
+
+  const sMail = 'style="color: blue; font-weight: bold;"';
+    const sFh = 'style="color: brown; font-weight: normal;"';
+    const sMsg = 'style="color: green; font-weight: normal; font-style: italic"';

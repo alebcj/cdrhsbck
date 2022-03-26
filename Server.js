@@ -5,11 +5,28 @@
 const express = require("express");
 const { engine } = require("express-handlebars");
 const Container = require("./Storage/Container");
+const { Server: HttpServer } = require('http')
+const { Server: IOServer } = require('socket.io')
+var moment = require('moment'); // require
+const storage = require('node-persist');
+storage.init(
+{dir: 'src/',
+
+stringify: JSON.stringify,
+
+parse: JSON.parse,
+
+encoding: 'utf8'})
+
+
 
 //Instancias
 const app = express();
 const {routerProducts} = require('./Router/routerProducts')
 const container = new Container("products.json");
+const httpServer = new HttpServer(app)
+const io = new IOServer(httpServer)
+
 
 //Config
 const PORT = 8080;
@@ -18,9 +35,22 @@ app.use(express.urlencoded({ extended: true }))
 
 //Start
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const server = app.listen(PORT, () => {
-  console.log(` 🖥️  Server iniciado, escuchando... http://localhost:${PORT}`);
-});
+//const server = app.listen(PORT, () => {
+//  console.log(` 🖥️  Server iniciado, escuchando... http://localhost:${PORT}`);
+//});
+
+
+app.use(express.static('./public'))
+app.get('/', (req, res) => {
+  res.redirect('/productos')
+})
+
+
+
+var messages = [];
+// El servidor funcionando en el puerto PORT
+httpServer.listen(PORT, () => console.log(` 🖥️  Server iniciado, escuchando... http://localhost:${PORT}`))
+
 
 app.engine(
   "hbs",
@@ -40,7 +70,7 @@ app.set("views", "./views/layout");
 
 app.get('/productos', async (req, res) =>{
   const products = await container.getAll();
-  res.render('layout', {products})
+  res.render('layout', {products, messages})
 })
 
 app.post('/productos', async (req, res) =>{
@@ -49,10 +79,31 @@ app.post('/productos', async (req, res) =>{
   res.redirect('/productos')
 })
 
-  
 //Router api
 app.use('/api/productos', routerProducts)
 
 
+
+io.on('connection', async (socket) => {
+  // "connection" se ejecuta la primera vez que se abre una nueva conexión
+  console.log('Usuario conectado')
+  messages = await storage.getItem('msgs')
+  io.sockets.emit('mensajeBack', messages);
+
+
+  socket.on('mensajeFront', async data => {
+    const messageParsed = {
+      id: socket.id,
+      mail: data.mail,
+      msg: data.mensaje,
+      date: moment().format('DD/MM/YYYY, HH:mm:ss')
+    }
+    messages = await storage.getItem('msgs')
+    messages.push(messageParsed)
+    await storage.setItem('msgs',messages)
+    io.sockets.emit('mensajeBack', messages);
+    })
+
+})  
 
 
