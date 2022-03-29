@@ -40,5 +40,11 @@
         "price": 4301059.48,
         "thumbnail": "https://cdn1.iconfinder.com/data/icons/social-icons-33/512/bitcoin-256.png",
         "id": 7
+    },
+    {
+        "title": "Bitcoin",
+        "price": 300.48,
+        "thumbnail": "https://cdn1.iconfinder.com/data/icons/social-icons-33/512/bitcoin-256.png",
+        "id": 8
     }
 ]

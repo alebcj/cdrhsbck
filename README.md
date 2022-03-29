@@ -9,11 +9,5 @@ ___
 
 ## Entregables
 ___
-Desafíos entregables del curso
 
-| Clase | Tema |
-| ------ | ------ | 
-| Clase 1 | Repaso JS | 
-| Clase 2 | Async / FS |
-| Clase 3 | Express |
-| Clase 3 | Express Avanzado |
+Proyecto Final - Entrega 1
