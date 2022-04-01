@@ -2,59 +2,59 @@ import * as fs from 'fs';
 const fsp = fs.promises;
 /* ------------------------------- typescript ------------------------------- */
 
-class Container {
-  products;
+class Cart {
+  cartsList;
   maxId;
   filename;
 
-  constructor(nombreArchivo) {
-    this.products = [];
+  constructor(filename) {
+    this.cartsList = [];
     this.maxId = 0;
-    this.filename = `${nombreArchivo}`;
+    this.filename = `${filename}`;
   }
 
-  async save(product) {
-    await this.getAll();
+  async saveCart(cart) {
+    await this.getAllCarts();
     this.maxId++;
-    product.id = this.maxId;
-    product.createDate = Date.now();
-    this.products.push(product);
+    cart.id = this.maxId;
+    cart.createDate = Date.now();
+    this.cartsList.push(cart);
     try {
-      await fsp.writeFile(this.filename, JSON.stringify(this.products));
+      await fsp.writeFile(this.filename, JSON.stringify(this.cartsList));
       return this.maxId;
     } catch (err) {
       console.log(
-        `Error al agregar ${product} en Archivo: ${this.filename}: ${err}`,
+        `Error al agregar ${cart} en Archivo: ${this.filename}: ${err}`,
       );
       throw new Error(err);
     }
   }
 
-  async update(product) {
+  async updateCart(cart) {
     try {
-      await this.getAll();
-      const productOld = await this.getById(product.id);
-      if (productOld != null) {
-        productOld.title = product.title;
-        productOld.price = product.price;
-        productOld.thumbnail = product.thumbnail;
-        productOld.lastUpdateDate = Date.now();
-        await fsp.writeFile(this.filename, JSON.stringify(this.products));
+      await this.getAllCarts();
+      const cartOld = await this.getCartById(cart.id);
+      if (cartOld != null) {
+        cartOld.title = cart.title;
+        cartOld.price = cart.price;
+        cartOld.thumbnail = cart.thumbnail;
+        cartOld.lastUpdateDate = Date.now();
+        await fsp.writeFile(this.filename, JSON.stringify(this.cartsList));
         return true;
       } else {
         return false;
       }
     } catch (err) {
       console.log(
-        `Error al actualizar ${product} en Archivo: ${this.filename}: ${err}`,
+        `Error al actualizar ${cart} en Archivo: ${this.filename}: ${err}`,
       );
       throw new Error(err);
     }
   }
 
-  async getById(id) {
+  async getCartById(id) {
     try {
-      const aux = await this.getAll();
+      const aux = await this.getAllCarts();
       return aux.find((obj) => obj.id == id) || null;
     } catch (err) {
       console.log(
@@ -62,9 +62,10 @@ class Container {
       );
     }
   }
-  async getRandom() {
+
+  async getRandomCart() {
     try {
-      const aux = await this.getAll();
+      const aux = await this.getAllCarts();
       const id = Math.floor(Math.random() * (this.maxId - 1)) + 1;
       return aux.find((obj) => obj.id == id) || null;
     } catch (err) {
@@ -73,39 +74,38 @@ class Container {
       );
     }
   }
-  async getAll() {
+
+  async getAllCarts() {
     try {
       if (!fs.existsSync(this.filename)) {
         await fsp.writeFile(this.filename, JSON.stringify([]));
       } else {
-        const productos = JSON.parse(
-          await fsp.readFile(this.filename, 'utf-8'),
-        );
-        this.products = productos;
-        if (this.products.length > 0) {
-          this.products.map((producto) => {
-            if (producto.id && this.maxId < producto.id)
-              this.maxId = producto.id;
+        const carts = JSON.parse(await fsp.readFile(this.filename, 'utf-8'));
+        this.cartsList = carts;
+        if (this.cartsList.length > 0) {
+          this.cartsList.map((cart) => {
+            if (cart.id && this.maxId < cart.id) this.maxId = cart.id;
           });
         }
       }
-      return this.products;
+      return this.cartsList;
     } catch (err) {
       console.log(
-        `Error al obtener productos de Archivo: "${this.filename}" ERROR: ${err}`,
+        `Error al obtener carritos de Archivo: "${this.filename}" ERROR: ${err}`,
       );
       throw new Error(err);
     }
   }
-  async deleteById(id) {
+
+  async deleteCart(id) {
     try {
-      const aux = await this.getAll();
+      const aux = await this.getAllCarts();
       const x = aux.findIndex((obj) => obj.id == id);
       if (x != -1) {
         aux.splice(x, 1);
         await fsp.writeFile(this.filename, JSON.stringify(aux));
         console.log(
-          `Se eliminó Objeto de ID: "${id}" de Archivo: "${this.filename}"`,
+          `Se eliminó Carrito de ID: "${id}" de Archivo: "${this.filename}"`,
         );
         return true;
       } else {
@@ -113,14 +113,14 @@ class Container {
       }
     } catch (err) {
       console.log(
-        `Error al eliminar producto de ID: "${id}" en Archivo: "${this.filename}" Error: ${err}`,
+        `Error al eliminar carrito de ID: "${id}" en Archivo: "${this.filename}" Error: ${err}`,
       );
       throw new Error(err);
     }
   }
 
-  async deleteAll() {
-    this.products = [];
+  async deleteAllCarts() {
+    this.cartsList = [];
     try {
       await fsp.writeFile(this.filename, JSON.stringify([]));
       console.log(`Se eliminó el Archivo: "${this.filename}"`);
@@ -133,4 +133,4 @@ class Container {
   }
 }
 
-export { Container as Container };
+export { Cart as Cart };

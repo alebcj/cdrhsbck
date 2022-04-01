@@ -10,6 +10,7 @@ const rtrProducts = Router();
 //Utils
 const ERR_NOT_FOUND = { error: 'producto no encontrado' };
 
+//Methods
 rtrProducts.get('/random', async (req, res) => {
   const products = await container.getRandom();
   res.send(products);
