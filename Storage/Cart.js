@@ -13,20 +13,36 @@ class Cart {
     this.filename = `${filename}`;
   }
 
-  async saveCart(cart) {
+  async saveCart() {
     await this.getAllCarts();
     this.maxId++;
-    cart.id = this.maxId;
-    cart.createDate = Date.now();
-    this.cartsList.push(cart);
+    const newCart = { id: this.maxId, createDate: Date.now(), products: [] };
+    this.cartsList.push(newCart);
     try {
       await fsp.writeFile(this.filename, JSON.stringify(this.cartsList));
       return this.maxId;
     } catch (err) {
       console.log(
-        `Error al agregar ${cart} en Archivo: ${this.filename}: ${err}`,
+        `Error al generar nuevo carrito: ${newCart.id} en Archivo: ${this.filename}: ${err}`,
       );
       throw new Error(err);
+    }
+  }
+
+  async saveProductToCart(cartId, product) {
+    let cart = await this.getCartById(cartId);
+    if (cart != null) {
+      cart.lastUpdateDate = Date.now();
+      cart.products.push(product);
+      try {
+        await fsp.writeFile(this.filename, JSON.stringify(this.cartsList));
+        return true;
+      } catch (err) {
+        console.log(
+          `Error al agregar ${cart} en Archivo: ${this.filename}: ${err}`,
+        );
+        throw new Error(err);
+      }
     }
   }
 
@@ -129,6 +145,31 @@ class Cart {
         `Error al eliminar el Archivo: "${this.filename}" Error: ${err}`,
       );
       throw new Error(err);
+    }
+  }
+
+  async deleteProductFromCart(idCart, idProd) {
+    const carts = await this.getAllCarts();
+    const cart = carts.find((obj) => obj.id == idCart) || null;
+    if (cart != null) {
+      try {
+        const prod = cart.products.findIndex((obj) => obj.id == idProd);
+        if (prod != -1) {
+          cart.products.splice(prod, 1);
+          await fsp.writeFile(this.filename, JSON.stringify(carts));
+          console.log(
+            `Se eliminó Producto de ID: "${idProd}" de Carrito: "${idCart}"`,
+          );
+          return true;
+        } else {
+          return false;
+        }
+      } catch (err) {
+        console.log(
+          `Error al eliminar producto de ID: "${idProd}" en Carrito: "${idCart}" Error: ${err}`,
+        );
+        throw new Error(err);
+      }
     }
   }
 }
