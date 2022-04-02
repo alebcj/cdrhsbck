@@ -13,7 +13,7 @@ dotenv.config();
 
 //Utils
 const ERR_NOT_FOUND = { error: '404', descripcion: 'producto no encontrado' };
-export const isAdmin = process.env.isAdmin;
+const isAdmin = process.env.isAdmin == '1';
 const ERR_401_UNAUTHORIZED = { error: '401', descripcion: 'no autorizada' };
 
 //Methods
@@ -42,12 +42,12 @@ rtrProducts.post('/', async (req, res) => {
     var id = await container.save(product);
     res.send(await container.getById(id));
   } else {
-    res.send = 'ERR_401_UNAUTHORIZED';
+    res.send(ERR_401_UNAUTHORIZED);
   }
 });
 
 rtrProducts.put('/:id', async (req, res) => {
-  if (isAdmin == true) {
+  if (isAdmin) {
     const product = req.body;
     product.id = req.params.id;
     const update = await container.update(product);
@@ -56,6 +56,8 @@ rtrProducts.put('/:id', async (req, res) => {
     } else {
       res.send(ERR_NOT_FOUND);
     }
+  } else {
+    res.send(ERR_401_UNAUTHORIZED);
   }
 });
 
@@ -70,7 +72,7 @@ rtrProducts.delete('/:id', async (req, res) => {
       res.send(ERR_NOT_FOUND);
     }
   } else {
-    res.send = ERR_401_UNAUTHORIZED;
+    res.send(ERR_401_UNAUTHORIZED);
   }
 });
 
