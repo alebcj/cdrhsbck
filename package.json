@@ -10,9 +10,13 @@
     "bootstrap-icons": "^1.8.1",
     "express": "^4.17.3",
     "express-handlebars": "^6.0.3",
+    "knex": "^1.0.7",
     "moment": "^2.29.1",
+    "mysql": "^2.18.1",
     "node-persist": "^3.1.0",
-    "socket.io": "^4.4.1"
+    "socket.io": "^4.4.1",
+    "sql": "^0.78.0",
+    "sqlite3": "^5.0.3"
   },
   "name": "proyecto-coder",
   "description": "___ ###### ![](https://images.ctfassets.net/qf2nkuq36ht9/5EMxiqpZ4RqdmwHBpTkcYN/287bad1efb590530d9cde1a1e769254e/logo_coderhouse.png) ## _Coderhouse Backend Curso_ #### _Alejandro Zammi_ ##### _Comision:_ _28855_ ### ### ###",
